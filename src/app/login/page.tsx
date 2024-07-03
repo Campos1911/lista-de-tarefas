@@ -1,23 +1,34 @@
 "use client";
 
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
+import { title } from "process";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 
 export default function Login() {
   const router = useRouter();
+  const { toast } = useToast();
   const [email, setEmail] = useState<string>("");
   const [senha, setSenha] = useState<string>("");
 
   function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    if (email === senha) {
+    if (email !== senha) {
       router.push("/quadro-geral");
+    } else {
+      toast({
+        title: "Erro",
+        description: "Usuário não encontrado!",
+        duration: 3000,
+        className: "bg-red-500 text-white border-none",
+      });
     }
   }
 
   return (
     <div className="text-white flex flex-col h-screen items-center justify-center">
+      <Toaster />
       <div className="w-[32%] bg-slate-900 p-8 rounded-md">
         <h1 className="text-3xl text-center">Quadro de Notas</h1>
 
@@ -44,13 +55,7 @@ export default function Login() {
             />
           </label>
 
-          <div className="flex gap-3 items-center mt-3">
-            <button
-              type="submit"
-              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
-            >
-              Login
-            </button>
+          <div className="flex gap-3 w-full justify-between items-center mt-3">
             <p className="text-sm">
               Esqueceu sua senha?{" "}
               <a
@@ -60,6 +65,12 @@ export default function Login() {
                 Clique aqui!
               </a>
             </p>
+            <button
+              type="submit"
+              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
+            >
+              Login
+            </button>
           </div>
         </form>
       </div>
