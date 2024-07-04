@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <div className="text-white flex flex-col h-screen items-center justify-center">
       <Toaster />
-      <div className="w-[32%] bg-slate-900 p-8 rounded-md">
+      <div className="w-[32%] bg-slate-900 shadow-md p-8 rounded-md">
         <h1 className="text-3xl text-center">Quadro de Notas</h1>
 
         <form onSubmit={handleSubmit} className="mt-5 flex flex-col gap-3">
