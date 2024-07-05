@@ -1,8 +1,27 @@
+"use client";
+
 import { Notas } from "@/components/Notas";
 import { NotasTypes } from "@/components/Notas/Notas";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const supabase = createClient();
+  const [tarefas, setTarefas] = useState<NotasTypes[]>([]);
+
+  useEffect(() => {
+    const getDados = async () => {
+      const { data, error } = await supabase
+        .from("Tarefas")
+        .select("*")
+        .returns<NotasTypes[]>();
+
+      setTarefas(data as NotasTypes[]);
+    };
+    getDados();
+  }, [supabase]);
+
   return (
     <main className="p-4 gap-5 flex flex-col ">
       <div className="flex w-full border-solid border-gray-600 border-b items-center justify-between p-2">
@@ -16,7 +35,7 @@ export default function Home() {
       </div>
 
       <div className="grid grid-cols-5 gap-3">
-        {notas.map((nota, index) => (
+        {tarefas.map((nota, index) => (
           <Notas
             key={index}
             titulo={nota.titulo}
@@ -29,48 +48,3 @@ export default function Home() {
     </main>
   );
 }
-
-const notas: NotasTypes[] = [
-  {
-    titulo: "Título 1",
-    dataFinal: "03/06/2024",
-    descricao: "Breve descrição sobre a tarefa",
-    feito: true,
-  },
-  {
-    titulo: "Título 2",
-    dataFinal: "03/02/2024",
-    descricao: "Breve descrição sobre a tarefa",
-    feito: false,
-  },
-  {
-    titulo: "Título 3",
-    dataFinal: "03/06/2024",
-    descricao: "Breve descrição sobre a tarefa",
-    feito: false,
-  },
-  {
-    titulo: "Título 4",
-    dataFinal: "03/06/2024",
-    descricao: "Breve descrição sobre a tarefa",
-    feito: false,
-  },
-  {
-    titulo: "Título 5",
-    dataFinal: "03/06/2024",
-    descricao: "Breve descrição sobre a tarefa",
-    feito: false,
-  },
-  {
-    titulo: "Título 6",
-    dataFinal: "03/06/2024",
-    descricao: "Breve descrição sobre a tarefa",
-    feito: true,
-  },
-  {
-    titulo: "Título 7",
-    dataFinal: "03/06/2024",
-    descricao: "Breve descrição sobre a tarefa",
-    feito: true,
-  },
-];
