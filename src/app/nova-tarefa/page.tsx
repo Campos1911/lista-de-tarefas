@@ -1,8 +1,12 @@
 "use client";
 
 import { NotasTypes } from "@/components/Notas/Notas";
+import { Toaster } from "@/components/ui/toaster";
+import { useToast } from "@/components/ui/use-toast";
+import { createClient } from "@/utils/supabase/client";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 export default function NovaTarefa() {
   const [novaTarefa, setNovaTarefa] = useState<NotasTypes>({
@@ -11,6 +15,10 @@ export default function NovaTarefa() {
     descricao: "",
     feito: false,
   });
+
+  const router = useRouter();
+  const supabase = createClient();
+  const { toast } = useToast();
 
   function inputDateToStringBR(inputDateValue: string): string {
     // Verifica se o valor fornecido não é vazio
@@ -39,15 +47,47 @@ export default function NovaTarefa() {
     return `${formattedDay}/${formattedMonth}/${year}`;
   }
 
+  async function criarTarefa(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    const { data, error } = await supabase
+      .from("Tarefas")
+      .insert([
+        {
+          titulo: novaTarefa.titulo,
+          dataFinal: novaTarefa.dataFinal,
+          descricao: novaTarefa.descricao,
+          feito: false,
+        },
+      ])
+      .select();
+
+    if (error) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        duration: 3000,
+        className: "bg-red-500 text-white border-none",
+      });
+    } else {
+      toast({
+        title: "Sucesso",
+        description: "Tarefa criada, você será redirecionado!",
+        duration: 3000,
+        className: "bg-green-500 text-white border-none",
+      });
+      setTimeout(() => {
+        router.push("/quadro-geral");
+      }, 2000);
+    }
+  }
+
   return (
     <main className="flex flex-col h-screen items-center justify-center">
+      <Toaster />
       <div className="text-white flex flex-col gap-3 px-8 py-4 rounded-md bg-slate-900 shadow-md">
         <h1 className=" text-3xl pb-3">Criar nova tarefa</h1>
 
-        <form
-          onSubmit={() => console.log("criado")}
-          className="flex flex-col gap-3"
-        >
+        <form onSubmit={criarTarefa} className="flex flex-col gap-3">
           <label>
             <h3>Nome da Tarefa:</h3>
             <input
@@ -97,23 +137,21 @@ export default function NovaTarefa() {
               }
             />
           </label>
+          <div className="w-[100%] flex gap-3">
+            <button
+              type="submit"
+              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
+            >
+              Salvar nova tarefa
+            </button>
+            <Link
+              href="/quadro-geral"
+              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
+            >
+              Voltar
+            </Link>
+          </div>
         </form>
-
-        <div className="w-[100%] flex gap-3">
-          <button
-            type="submit"
-            className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
-            onClick={() => console.log(novaTarefa)}
-          >
-            Salvar nova tarefa
-          </button>
-          <Link
-            href="/quadro-geral"
-            className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
-          >
-            Voltar
-          </Link>
-        </div>
       </div>
     </main>
   );
