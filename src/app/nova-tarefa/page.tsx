@@ -49,32 +49,43 @@ export default function NovaTarefa() {
 
   async function criarTarefa(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const { data, error } = await supabase
-      .from("Tarefas")
-      .insert([
+
+    if (
+      novaTarefa.titulo === "" ||
+      novaTarefa.dataFinal === "" ||
+      novaTarefa.descricao === ""
+    ) {
+      toast({
+        title: "Erro",
+        description: "Preencha todos os campos",
+        duration: 3000,
+        className: "bg-red-500 text-white border-none",
+      });
+    } else {
+      const { data, error } = await supabase.from("Tarefas").insert([
         {
           titulo: novaTarefa.titulo,
           dataFinal: novaTarefa.dataFinal,
           descricao: novaTarefa.descricao,
           feito: false,
         },
-      ])
-      .select();
+      ]);
+      if (error) {
+        toast({
+          title: "Erro",
+          description: error.message,
+          duration: 3000,
+          className: "bg-red-500 text-white border-none",
+        });
+      } else {
+        toast({
+          title: "Sucesso",
+          description: "Tarefa criada, você será redirecionado!",
+          duration: 3000,
+          className: "bg-green-500 text-white border-none",
+        });
+      }
 
-    if (error) {
-      toast({
-        title: "Erro",
-        description: error.message,
-        duration: 3000,
-        className: "bg-red-500 text-white border-none",
-      });
-    } else {
-      toast({
-        title: "Sucesso",
-        description: "Tarefa criada, você será redirecionado!",
-        duration: 3000,
-        className: "bg-green-500 text-white border-none",
-      });
       setTimeout(() => {
         router.push("/quadro-geral");
       }, 2000);
