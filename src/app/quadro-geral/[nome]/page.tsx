@@ -98,7 +98,7 @@ export default function Detalhes({ params }: { params: { nome: string } }) {
           <Toaster />
           <div
             key={index}
-            className="text-white flex flex-col gap-3 px-8 py-4 rounded-md bg-slate-900 shadow-md"
+            className="text-white flex flex-col gap-3 w-[30%] p-8 rounded-md bg-slate-900 shadow-md"
           >
             <h1 className=" text-3xl">{tarefa.titulo}</h1>
 
