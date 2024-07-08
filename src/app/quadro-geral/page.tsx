@@ -2,12 +2,15 @@
 
 import { Notas } from "@/components/Notas";
 import { NotasTypes } from "@/components/Notas/Notas";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const supabase = createClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+  );
   const [tarefas, setTarefas] = useState<NotasTypes[]>([]);
 
   useEffect(() => {

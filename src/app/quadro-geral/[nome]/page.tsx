@@ -3,7 +3,7 @@
 import { NotasTypes } from "@/components/Notas/Notas";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -12,7 +12,10 @@ export default function Detalhes({ params }: { params: { nome: string } }) {
   const nomeTask = decodeURIComponent(params.nome.replace(/-/g, " "));
   const { toast } = useToast();
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+  );
   const [dadosTarefa, setDadosTarefa] = useState<NotasTypes[]>([]);
 
   useEffect(() => {

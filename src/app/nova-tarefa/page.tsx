@@ -3,7 +3,7 @@
 import { NotasTypes } from "@/components/Notas/Notas";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -17,7 +17,10 @@ export default function NovaTarefa() {
   });
 
   const router = useRouter();
-  const supabase = createClient();
+  const supabase = createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+  );
   const { toast } = useToast();
 
   function inputDateToStringBR(inputDateValue: string): string {

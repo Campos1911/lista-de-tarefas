@@ -2,7 +2,7 @@
 
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
-import { createClient } from "@/utils/supabase/client";
+import { createClient } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -14,7 +14,10 @@ export default function Login() {
 
   async function login(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const supabase = createClient();
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL as string,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+    );
 
     // type-casting here for convenience
     // in practice, you should validate your inputs
