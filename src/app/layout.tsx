@@ -5,8 +5,11 @@ import "./globals.css";
 const poppins = Poppins({ subsets: ["latin"], weight: "400" });
 
 export const metadata: Metadata = {
-  title: "To Do List",
+  title: "Quadro de Tarefas",
   description: "Lista de tarefas diárias",
+  icons: {
+    icon: "/images/lista.png",
+  },
 };
 
 export default function RootLayout({
