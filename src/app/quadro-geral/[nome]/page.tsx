@@ -22,6 +22,16 @@ export default function Detalhes({ params }: { params: { nome: string } }) {
         .select("*")
         .like("titulo", `${nomeTask}`)
         .returns<NotasTypes[]>();
+
+      if (error) {
+        toast({
+          title: "Erro",
+          description: error.message,
+          duration: 3000,
+          className: "bg-red-500 text-white border-none",
+        });
+      }
+
       setDadosTarefa(data as NotasTypes[]);
     };
     getDadosTarefa();
