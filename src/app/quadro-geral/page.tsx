@@ -26,18 +26,18 @@ export default function Home() {
   }, [supabase]);
 
   return (
-    <main className="p-4 gap-5 flex flex-col ">
+    <main className="p-4 gap-5 flex flex-col">
       <div className="flex w-full border-solid border-gray-600 border-b items-center justify-between p-2">
-        <h1 className="text-white text-3xl pb-3">Quadro de Notas</h1>
+        <h1 className="text-white md:text-3xl">Quadro de Notas</h1>
         <Link
           href="/nova-tarefa"
-          className="bg-slate-500 p-2 rounded-md text-white hover:bg-slate-600 duration-200"
+          className="bg-slate-500 p-2 rounded-md md:text-base text-xs text-white hover:bg-slate-600 duration-200"
         >
           Criar nova tarefa
         </Link>
       </div>
 
-      <div className="grid grid-cols-5 gap-3">
+      <div className="grid lg:grid-cols-5 gap-3">
         {tarefas.map((nota, index) => (
           <Notas
             key={index}

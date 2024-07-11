@@ -96,7 +96,7 @@ export default function NovaTarefa() {
   }
 
   return (
-    <main className="flex flex-col h-screen items-center justify-center">
+    <main className="flex flex-col h-screen items-center justify-center p-3">
       <Toaster />
       <div className="text-white flex flex-col gap-3 px-8 py-4 rounded-md bg-slate-900 shadow-md">
         <h1 className=" text-3xl pb-3">Criar nova tarefa</h1>
@@ -151,16 +151,16 @@ export default function NovaTarefa() {
               }
             />
           </label>
-          <div className="w-[100%] flex gap-3">
+          <div className="w-[100%] flex gap-3 justify-between">
             <button
               type="submit"
-              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
+              className="bg-slate-500 w-[50%] flex justify-center items-center hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
             >
-              Salvar nova tarefa
+              Salvar
             </button>
             <Link
               href="/quadro-geral"
-              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
+              className="bg-slate-500 w-[50%] flex justify-center items-center hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
             >
               Voltar
             </Link>

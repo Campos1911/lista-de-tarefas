@@ -95,13 +95,13 @@ export default function Detalhes({ params }: { params: { nome: string } }) {
   }
 
   return (
-    <main className="flex flex-col h-screen items-center justify-center">
+    <main className="flex flex-col h-screen items-center justify-center p-3">
       {dadosTarefa.map((tarefa, index) => (
         <>
           <Toaster />
           <div
             key={index}
-            className="text-white flex flex-col gap-3 w-[30%] p-8 rounded-md bg-slate-900 shadow-md"
+            className="text-white flex flex-col gap-3 lg:w-[30%] p-8 rounded-md bg-slate-900 shadow-md"
           >
             <h1 className=" text-3xl">{tarefa.titulo}</h1>
 

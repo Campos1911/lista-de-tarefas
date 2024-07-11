@@ -41,9 +41,9 @@ export default function Login() {
   }
 
   return (
-    <div className="text-white flex flex-col h-screen items-center justify-center">
+    <div className="text-white flex flex-col h-screen items-center justify-center px-4">
       <Toaster />
-      <div className="w-[32%] bg-slate-900 shadow-md p-8 rounded-md">
+      <div className="lg:w-[32%] bg-slate-900 shadow-md p-8 rounded-md">
         <h1 className="text-3xl text-center">Quadro de Notas</h1>
 
         <form onSubmit={login} className="mt-5 flex flex-col gap-3">
@@ -69,19 +69,10 @@ export default function Login() {
             />
           </label>
 
-          <div className="flex gap-3 w-full justify-between items-center mt-3">
-            <p className="text-sm">
-              Esqueceu sua senha?{" "}
-              <a
-                href="/recuperar-senha"
-                className="hover:text-slate-300 duration-200"
-              >
-                Clique aqui!
-              </a>
-            </p>
+          <div className="flex gap-3 w-full justify-center items-center mt-3">
             <button
               type="submit"
-              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
+              className="bg-slate-500 w-[50%] hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
             >
               Login
             </button>
