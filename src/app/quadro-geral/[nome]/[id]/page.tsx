@@ -8,8 +8,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function Detalhes({ params }: { params: { nome: string } }) {
+export default function Detalhes({
+  params,
+}: {
+  params: { nome: string; id: number };
+}) {
   const nomeTask = decodeURIComponent(params.nome.replace(/-/g, " "));
+  const taskId = params.id;
   const { toast } = useToast();
   const router = useRouter();
   const supabase = createClient(

@@ -1,6 +1,5 @@
 "use client";
 
-import { NotasTypes } from "@/components/Notas/Notas";
 import { Toaster } from "@/components/ui/toaster";
 import { useToast } from "@/components/ui/use-toast";
 import { createClient } from "@supabase/supabase-js";
@@ -8,8 +7,15 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+interface NotasTypesExceptId {
+  titulo: string;
+  dataFinal: string;
+  descricao: string;
+  feito: boolean;
+}
+
 export default function NovaTarefa() {
-  const [novaTarefa, setNovaTarefa] = useState<NotasTypes>({
+  const [novaTarefa, setNovaTarefa] = useState<NotasTypesExceptId>({
     titulo: "",
     dataFinal: "",
     descricao: "",

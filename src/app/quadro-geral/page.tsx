@@ -45,6 +45,7 @@ export default function Home() {
             dataFinal={nota.dataFinal}
             descricao={nota.descricao}
             feito={nota.feito}
+            id={nota.id}
           />
         ))}
       </div>
