@@ -14,6 +14,12 @@ interface NotasTypesExceptId {
   feito: boolean;
 }
 
+interface dataTypes {
+  dia: number;
+  mes: number;
+  ano: number;
+}
+
 export default function NovaTarefa() {
   const [novaTarefa, setNovaTarefa] = useState<NotasTypesExceptId>({
     titulo: "",
@@ -22,12 +28,27 @@ export default function NovaTarefa() {
     feito: false,
   });
 
+  const [dataNotFormatted, setDataNotFormatted] = useState<dataTypes>({
+    dia: 0,
+    mes: 0,
+    ano: 0,
+  });
+
+  const today = new Date();
+
+  const todayDate = {
+    dia: today.getDate(),
+    mes: today.getMonth() + 1,
+    ano: today.getFullYear(),
+  };
+
+  const { toast } = useToast();
+
   const router = useRouter();
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL as string,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
   );
-  const { toast } = useToast();
 
   function inputDateToStringBR(inputDateValue: string): string {
     // Verifica se o valor fornecido não é vazio
@@ -48,6 +69,12 @@ export default function NovaTarefa() {
     let month: number = date.getMonth() + 1; // Os meses em JavaScript vão de 0 a 11
     let year: number = date.getFullYear();
 
+    setDataNotFormatted({
+      dia: day,
+      mes: month,
+      ano: year,
+    });
+
     // Formata o dia e mês para dois dígitos (com zero à esquerda, se necessário)
     const formattedDay: string = day < 10 ? `0${day}` : `${day}`;
     const formattedMonth: string = month < 10 ? `0${month}` : `${month}`;
@@ -67,6 +94,34 @@ export default function NovaTarefa() {
       toast({
         title: "Erro",
         description: "Preencha todos os campos",
+        duration: 3000,
+        className: "bg-red-500 text-white border-none",
+      });
+    } else if (todayDate.ano > dataNotFormatted.ano) {
+      toast({
+        title: "Erro",
+        description: "Insira uma data válida",
+        duration: 3000,
+        className: "bg-red-500 text-white border-none",
+      });
+    } else if (
+      todayDate.ano <= dataNotFormatted.ano &&
+      todayDate.mes > dataNotFormatted.mes
+    ) {
+      toast({
+        title: "Erro",
+        description: "Insira uma data válida",
+        duration: 3000,
+        className: "bg-red-500 text-white border-none",
+      });
+    } else if (
+      todayDate.ano <= dataNotFormatted.ano &&
+      todayDate.mes <= dataNotFormatted.mes &&
+      todayDate.dia > dataNotFormatted.dia
+    ) {
+      toast({
+        title: "Erro",
+        description: "Insira uma data válida",
         duration: 3000,
         className: "bg-red-500 text-white border-none",
       });
@@ -106,6 +161,13 @@ export default function NovaTarefa() {
       <Toaster />
       <div className="text-white flex flex-col gap-3 px-8 py-4 rounded-md bg-slate-900 shadow-md">
         <h1 className=" text-3xl pb-3">Criar nova tarefa</h1>
+
+        <button
+          onClick={() => console.log(todayDate.mes)}
+          className="bg-red-500"
+        >
+          TESTE
+        </button>
 
         <form onSubmit={criarTarefa} className="flex flex-col gap-3">
           <label>
