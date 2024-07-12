@@ -162,13 +162,6 @@ export default function NovaTarefa() {
       <div className="text-white flex flex-col gap-3 px-8 py-4 rounded-md bg-slate-900 shadow-md">
         <h1 className=" text-3xl pb-3">Criar nova tarefa</h1>
 
-        <button
-          onClick={() => console.log(todayDate.mes)}
-          className="bg-red-500"
-        >
-          TESTE
-        </button>
-
         <form onSubmit={criarTarefa} className="flex flex-col gap-3">
           <label>
             <h3>Nome da Tarefa:</h3>
