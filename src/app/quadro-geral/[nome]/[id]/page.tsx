@@ -14,7 +14,7 @@ export default function Detalhes({
   params: { nome: string; id: number };
 }) {
   const nomeTask = decodeURIComponent(params.nome.replace(/-/g, " "));
-  const taskId = params.id;
+  const taskId: number = params.id;
   const { toast } = useToast();
   const router = useRouter();
   const supabase = createClient(
@@ -28,7 +28,7 @@ export default function Detalhes({
       const { data, error } = await supabase
         .from("Tarefas")
         .select("*")
-        .like("titulo", `${nomeTask}`)
+        .eq("id", `${taskId}`)
         .returns<NotasTypes[]>();
 
       if (error) {
@@ -77,7 +77,7 @@ export default function Detalhes({
     const { error } = await supabase
       .from("Tarefas")
       .delete()
-      .eq("titulo", dadosTarefa[0].titulo);
+      .eq("id", dadosTarefa[0].id);
 
     if (error) {
       toast({
@@ -127,6 +127,7 @@ export default function Detalhes({
             >
               Excluir tarefa
             </button>
+            <button onClick={() => console.log(taskId)}>id</button>
 
             <Link
               href="/quadro-geral"
