@@ -15,6 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 export default function Detalhes({
   params,
@@ -183,12 +184,34 @@ export default function Detalhes({
               </DialogContent>
             </Dialog>
 
-            <button
-              onClick={() => excluirTarefa()}
-              className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
-            >
-              Excluir tarefa
-            </button>
+            <Dialog>
+              <DialogTrigger className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md">
+                Excluir tarefa
+              </DialogTrigger>
+              <DialogContent className="bg-slate-700 border-none w-[90%] text-white outline-none">
+                <DialogHeader>
+                  <DialogTitle className="font-normal">
+                    Tem certeza que deseja excluir?
+                  </DialogTitle>
+                  <DialogDescription className="pt-2 flex gap-2 text-white w-full justify-between">
+                    <DialogClose asChild>
+                      <button
+                        className="bg-slate-500 hover:bg-slate-800 duration-200 px-7 w-[40%] py-2 rounded-md"
+                        type="button"
+                      >
+                        Cancelar
+                      </button>
+                    </DialogClose>
+                    <button
+                      onClick={() => excluirTarefa()}
+                      className="bg-red-500 hover:bg-red-700 duration-200 px-7 w-[40%] py-2 rounded-md"
+                    >
+                      Excluir tarefa
+                    </button>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
 
             <Link
               href="/quadro-geral"
