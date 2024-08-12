@@ -50,7 +50,7 @@ export default function Detalhes({
     const { data, error } = await supabase
       .from("Tarefas")
       .update({ feito: !dadosTarefa[0].feito })
-      .eq("titulo", dadosTarefa[0].titulo)
+      .eq("id", dadosTarefa[0].id)
       .select();
 
     if (error) {
