@@ -7,13 +7,20 @@ import { createClient } from "@supabase/supabase-js";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 export default function Detalhes({
   params,
 }: {
   params: { nome: string; id: number };
 }) {
-  const nomeTask = decodeURIComponent(params.nome.replace(/-/g, " "));
   const taskId: number = params.id;
   const { toast } = useToast();
   const router = useRouter();
@@ -22,6 +29,7 @@ export default function Detalhes({
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
   );
   const [dadosTarefa, setDadosTarefa] = useState<NotasTypes[]>([]);
+  const [novoNome, setNovoNome] = useState<string>("");
 
   useEffect(() => {
     const getDadosTarefa = async () => {
@@ -46,7 +54,7 @@ export default function Detalhes({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function atualizarTarefa() {
+  async function concluirTarefa() {
     const { data, error } = await supabase
       .from("Tarefas")
       .update({ feito: !dadosTarefa[0].feito })
@@ -71,6 +79,33 @@ export default function Detalhes({
     setTimeout(() => {
       window.location.reload();
     }, 1500);
+  }
+
+  async function editarNome() {
+    const { data, error } = await supabase
+      .from("Tarefas")
+      .update({ titulo: novoNome })
+      .eq("id", dadosTarefa[0].id)
+      .select();
+
+    if (error) {
+      toast({
+        title: "Erro",
+        description: error.message,
+        duration: 3000,
+        className: "bg-red-500 text-white border-none",
+      });
+    } else {
+      toast({
+        title: "Sucesso",
+        description: "Nome editado, a página será recarregada!",
+        duration: 3000,
+        className: "bg-green-500 text-white border-none",
+      });
+      setTimeout(() => {
+        window.location.reload();
+      }, 2000);
+    }
   }
 
   async function excluirTarefa() {
@@ -113,13 +148,40 @@ export default function Detalhes({
             <h3 className="text-gray-400">Data final: {tarefa.dataFinal}</h3>
 
             <button
-              onClick={() => atualizarTarefa()}
+              onClick={() => concluirTarefa()}
               className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md"
             >
               {tarefa.feito === false
                 ? "Concluir tarefa"
                 : "Marcar como não concluída"}
             </button>
+
+            <Dialog>
+              <DialogTrigger className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md">
+                Editar nome
+              </DialogTrigger>
+              <DialogContent className="bg-slate-700 border-none text-white outline-none">
+                <DialogHeader>
+                  <DialogTitle className="font-normal">
+                    Insira o novo nome da sua tarefa!
+                  </DialogTitle>
+                  <DialogDescription className="pt-2 flex flex-col gap-2">
+                    <input
+                      className="w-full rounded-md outline-none p-1"
+                      onChange={(e) => setNovoNome(e.target.value)}
+                    />
+                    <div className="flex justify-center w-full">
+                      <button
+                        onClick={() => editarNome()}
+                        className="bg-slate-900 hover:bg-slate-800 duration-200 text-white px-7 py-2 rounded-md w-[30%] "
+                      >
+                        Salvar
+                      </button>
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
 
             <button
               onClick={() => excluirTarefa()}
