@@ -160,7 +160,7 @@ export default function Detalhes({
               <DialogTrigger className="bg-slate-500 hover:bg-slate-700 duration-200 px-7 py-2 rounded-md">
                 Editar nome
               </DialogTrigger>
-              <DialogContent className="bg-slate-700 border-none text-white outline-none">
+              <DialogContent className="bg-slate-700 border-none w-[90%] text-white outline-none">
                 <DialogHeader>
                   <DialogTitle className="font-normal">
                     Insira o novo nome da sua tarefa!
@@ -173,7 +173,7 @@ export default function Detalhes({
                     <div className="flex justify-center w-full">
                       <button
                         onClick={() => editarNome()}
-                        className="bg-slate-900 hover:bg-slate-800 duration-200 text-white px-7 py-2 rounded-md w-[30%] "
+                        className="bg-slate-900 hover:bg-slate-800 duration-200 text-white px-7 py-2 rounded-md w-[50%] md:w-[30%] "
                       >
                         Salvar
                       </button>
