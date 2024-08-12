@@ -127,7 +127,6 @@ export default function Detalhes({
             >
               Excluir tarefa
             </button>
-            <button onClick={() => console.log(taskId)}>id</button>
 
             <Link
               href="/quadro-geral"
