@@ -1,5 +1,6 @@
 "use client";
 
+import { Dropdown } from "@/components/Dropdown";
 import { Notas } from "@/components/Notas";
 import { NotasTypes } from "@/components/Notas/Notas";
 import { createClient } from "@supabase/supabase-js";
@@ -12,6 +13,7 @@ export default function Home() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
   );
   const [tarefas, setTarefas] = useState<NotasTypes[]>([]);
+  const [filtro, setFiltro] = useState<string>("todos");
 
   useEffect(() => {
     const getDados = async () => {
@@ -37,17 +39,33 @@ export default function Home() {
         </Link>
       </div>
 
+      <div className="w-full grid md:flex grid-cols-2 gap-2 justify-end">
+        <Dropdown
+          titulo="Filtrar por status"
+          filtro={filtro}
+          setFiltro={setFiltro}
+        />
+      </div>
+
       <div className="grid lg:grid-cols-5 gap-3">
-        {tarefas.map((nota, index) => (
-          <Notas
-            key={index}
-            titulo={nota.titulo}
-            dataFinal={nota.dataFinal}
-            descricao={nota.descricao}
-            feito={nota.feito}
-            id={nota.id}
-          />
-        ))}
+        {tarefas
+          .filter((nota) =>
+            filtro === "concluidas"
+              ? nota.feito === true
+              : filtro === "naoConcluidas"
+              ? nota.feito === false
+              : nota
+          )
+          .map((nota, index) => (
+            <Notas
+              key={index}
+              titulo={nota.titulo}
+              dataFinal={nota.dataFinal}
+              descricao={nota.descricao}
+              feito={nota.feito}
+              id={nota.id}
+            />
+          ))}
       </div>
     </main>
   );
